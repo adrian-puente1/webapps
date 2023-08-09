@@ -6,10 +6,11 @@ import urllib.parse
 import pathlib
 import uuid
 import plotly.express as px
-from decouple import config
+import os
+from dotenv import load_dotenv
 
-def translate_addresses_to_coordinates(new_addresses:list[str], filepath:str, addresses:dict[str]=[], 
-                                       geocode_auth:str=str(config('GEOCODE_AUTH'))):
+def translate_addresses_to_coordinates(new_addresses:list[str], filepath:str, geocode_auth:str, addresses:dict[str]=[], 
+                                       ):
     for idx,address in enumerate(new_addresses):
         params = urllib.parse.urlencode({
             'auth': geocode_auth,
@@ -42,6 +43,7 @@ def addresses_as_html(filepath:str):
     fig.write_html(f"{filepath}.html", full_html=False)
 
 def destination_heatmap_wrapper(**kwargs):
+    load_dotenv("creds.env")
     filepath = f"files/{str(uuid.uuid4())}"
     pathlib.Path(filepath[::-1].split('/',1)[-1][::-1]).mkdir(parents=True, exist_ok=True)
     addresses = [
@@ -50,7 +52,7 @@ def destination_heatmap_wrapper(**kwargs):
     ]
 
     #TODO use kwargs in logic to determine functions used
-    translate_addresses_to_coordinates(addresses,filepath)
+    translate_addresses_to_coordinates(addresses,filepath,str(os.getenv('GEOCODE_AUTH')))
     addresses_as_html(filepath)
 
 if __name__ == "__main__":

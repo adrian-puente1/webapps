@@ -1,2 +1,4 @@
 .venv
 creds.env
+files
+app/__pycache__
