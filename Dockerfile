@@ -9,6 +9,10 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
 
+# For gunicorn?
+RUN apt-get update -y
+RUN apt-get install -y python-dev libxml2-dev libxslt-dev libpq-dev gcc
+
 # Install pip requirements
 COPY requirements.txt .
 RUN python -m pip install -r requirements.txt
