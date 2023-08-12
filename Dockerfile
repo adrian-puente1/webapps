@@ -11,7 +11,7 @@ ENV PYTHONUNBUFFERED=1
 
 # For gunicorn?
 RUN apt-get update -y
-RUN apt-get install -y python-dev libxml2-dev libxslt-dev libpq-dev gcc
+RUN apt-get install -y python3 gunicorn
 
 # Install pip requirements
 COPY requirements.txt .
